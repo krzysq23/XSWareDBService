@@ -1,4 +1,4 @@
-package pl.xswre.db_service
+package pl.xsware.db_service
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
