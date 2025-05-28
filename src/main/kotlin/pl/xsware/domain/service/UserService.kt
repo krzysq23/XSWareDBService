@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import pl.xsware.domain.model.dto.UserRequest
+import pl.xsware.domain.model.entity.RoleName
 import pl.xsware.domain.model.entity.User
 import pl.xsware.domain.respository.RoleRepository
 import pl.xsware.domain.respository.UserRepository
@@ -18,11 +19,11 @@ class UserService(
     @Transactional
     fun createUser(userData: UserRequest): User {
         if (userRepository.existsByEmail(userData.email)) {
-            throw IllegalArgumentException("User with email $userData.email already exists")
+            throw IllegalArgumentException("Użytkownik o email ${userData.email} już istnieje")
         }
 
-        val userRole = roleRepository.findByName("USER")
-            ?: throw IllegalStateException("Default role 'USER' not found")
+        val userRole = roleRepository.findByName(RoleName.USER)
+            ?: throw IllegalStateException("Nie można odnaleźć roli użytkownika 'USER'")
 
         val encodedPassword = passwordEncoder.encode(userData.password)
 
@@ -35,6 +36,14 @@ class UserService(
         )
 
         return userRepository.save(newUser)
+    }
+
+    fun authenticateUser(email: String, passwordEncoder: String): Boolean {
+        return userRepository.existsByEmail(email);
+    }
+
+    fun checkIfExist(email: String): Boolean {
+        return userRepository.existsByEmail(email);
     }
 
     fun getUserByEmail(email: String): User? {

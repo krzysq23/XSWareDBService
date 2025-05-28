@@ -7,9 +7,10 @@ class ModelMapper
 
 fun User.toUserDto(): UserDto {
     return UserDto(
+        id = this.id,
         firstName = this.firstName,
         lastName = this.lastName,
         email = this.email,
-        roles = this.roles.map { it.name.name }
+        roles = this.roles
     )
 }
