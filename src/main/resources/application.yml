@@ -5,6 +5,8 @@ spring:
     admin:
       client:
         enabled: false
+  main:
+    banner-mode: console
 
 server:
   error:
@@ -14,12 +16,3 @@ server:
     include-stacktrace: never
     include-message: never
     include-binding-errors: never
-
-security:
-  users:
-    - username: admin
-      password: admin1234
-      roles: [ADMIN]
-    - username: xsware
-      password: xsware1234
-      roles: [USER]
