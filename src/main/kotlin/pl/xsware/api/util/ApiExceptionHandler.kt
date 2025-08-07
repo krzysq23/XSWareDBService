@@ -11,7 +11,18 @@ import java.time.LocalDateTime
 class ApiExceptionHandler {
 
     @ExceptionHandler(Throwable::class)
-    fun handleUserNotFound(ex: Throwable): ResponseEntity<ErrorResponse> {
+    fun handleException(ex: Throwable): ResponseEntity<ErrorResponse> {
+        val error = ErrorResponse(
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = "Not Found",
+            message = "Wystąpił niespodziewany błąd!"
+        )
+        return ResponseEntity(error, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(MyCustomException::class)
+    fun handleCustomException(ex: Throwable): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             timestamp = LocalDateTime.now(),
             status = HttpStatus.BAD_REQUEST.value(),

@@ -1,6 +1,6 @@
-package pl.xsware.domain.model.dto
+package pl.xsware.domain.model.dto.user
 
-import pl.xsware.domain.model.entity.RoleName
+import pl.xsware.domain.model.entity.user.RoleName
 
 data class RoleDto(
 

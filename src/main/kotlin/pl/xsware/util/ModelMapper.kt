@@ -1,7 +1,7 @@
 package pl.xsware.util
 
-import pl.xsware.domain.model.dto.UserDto
-import pl.xsware.domain.model.entity.User
+import pl.xsware.domain.model.dto.user.UserDto
+import pl.xsware.domain.model.entity.user.User
 
 class ModelMapper
 
@@ -10,6 +10,7 @@ fun User.toUserDto(): UserDto {
         id = this.id,
         firstName = this.firstName,
         lastName = this.lastName,
+        login = this.login,
         email = this.email,
         roles = this.roles
     )

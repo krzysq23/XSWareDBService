@@ -3,9 +3,10 @@ package pl.xsware.domain.service
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import pl.xsware.domain.model.dto.UserRequest
-import pl.xsware.domain.model.entity.RoleName
-import pl.xsware.domain.model.entity.User
+import pl.xsware.api.util.MyCustomException
+import pl.xsware.domain.model.dto.user.UserRegisterReq
+import pl.xsware.domain.model.entity.user.RoleName
+import pl.xsware.domain.model.entity.user.User
 import pl.xsware.domain.respository.RoleRepository
 import pl.xsware.domain.respository.UserRepository
 
@@ -17,19 +18,20 @@ class UserService(
 ) {
 
     @Transactional
-    fun createUser(userData: UserRequest): User {
+    fun createUser(userData: UserRegisterReq): User {
         if (userRepository.existsByEmail(userData.email)) {
-            throw IllegalArgumentException("Użytkownik o email ${userData.email} już istnieje")
+            throw MyCustomException("Użytkownik o email ${userData.email} już istnieje")
         }
 
         val userRole = roleRepository.findByName(RoleName.USER)
-            ?: throw IllegalStateException("Nie można odnaleźć roli użytkownika 'USER'")
+            ?: throw MyCustomException("Nie można odnaleźć roli użytkownika 'USER'")
 
         val encodedPassword = passwordEncoder.encode(userData.password)
 
         val newUser = User(
             firstName = userData.firstName,
             lastName = userData.lastName,
+            login = userData.login,
             email = userData.email,
             password = encodedPassword,
             roles = setOf(userRole)
@@ -48,5 +50,9 @@ class UserService(
 
     fun getUserByEmail(email: String): User? {
         return userRepository.findAll().find { it.email == email }
+    }
+
+    fun getUserByLogin(login: String): User? {
+        return userRepository.findByLogin(login)
     }
 }

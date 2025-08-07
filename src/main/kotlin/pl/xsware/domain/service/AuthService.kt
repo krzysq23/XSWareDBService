@@ -7,11 +7,17 @@ import pl.xsware.domain.respository.UserRepository
 @Service
 class AuthService(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder // np. BCryptPasswordEncoder
+    private val passwordEncoder: PasswordEncoder
 ) {
+
+    fun isValidLoginAndPassword(login: String, rawPassword: String): Boolean {
+        val user = userRepository.findByLogin(login) ?: return false
+        return passwordEncoder.matches(rawPassword, user.password)
+    }
 
     fun isValidEmailAndPassword(email: String, rawPassword: String): Boolean {
         val user = userRepository.findByEmail(email) ?: return false
         return passwordEncoder.matches(rawPassword, user.password)
     }
+
 }

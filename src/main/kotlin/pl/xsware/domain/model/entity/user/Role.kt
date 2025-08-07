@@ -1,4 +1,4 @@
-package pl.xsware.domain.model.entity
+package pl.xsware.domain.model.entity.user
 
 import jakarta.persistence.*
 

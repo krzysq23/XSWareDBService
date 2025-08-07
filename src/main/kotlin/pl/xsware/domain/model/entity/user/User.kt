@@ -1,7 +1,6 @@
-package pl.xsware.domain.model.entity
+package pl.xsware.domain.model.entity.user
 
 import jakarta.persistence.*
-import pl.xsware.domain.model.dto.UserDto
 
 @Entity
 @Table(name = "users")
@@ -11,11 +10,14 @@ data class User (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     val firstName: String,
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     val lastName: String,
+
+    @Column(nullable = false, unique = true)
+    val login: String,
 
     @Column(nullable = false, unique = true)
     val email: String,

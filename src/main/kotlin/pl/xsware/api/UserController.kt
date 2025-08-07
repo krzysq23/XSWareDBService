@@ -3,15 +3,16 @@ package pl.xsware.api
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.http.ResponseEntity
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.Response
 import pl.xsware.domain.model.dto.ResponseStatus
-import pl.xsware.domain.model.dto.UserDto
-import pl.xsware.domain.model.dto.UserRequest
+import pl.xsware.domain.model.dto.user.UserDto
+import pl.xsware.domain.model.dto.user.UserLoginReq
+import pl.xsware.domain.model.dto.user.UserRegisterReq
 import pl.xsware.domain.service.AuthService
 import pl.xsware.domain.service.UserService
 import pl.xsware.util.toUserDto
@@ -26,21 +27,33 @@ class UserController(
     val log: Logger = LogManager.getLogger(UserController::class.java)
 
     @PostMapping("/authenticate")
-    fun authenticate(@RequestBody data: UserRequest): ResponseEntity<UserDto> {
-        log.info("START method: authenticate, email: = {}", data.email)
-        val user = userService.getUserByEmail(data.email)?.toUserDto()
-            ?: throw NoSuchElementException("Użytkownik o adresie e-mail ${data.email} nie istnieje")
-        if(!authService.isValidEmailAndPassword(data.email, data.password)) {
-            throw BadCredentialsException("Nieprawidłowy login lub hasło")
+    fun authenticate(@RequestBody data: UserLoginReq): ResponseEntity<UserDto> {
+        log.info("START method: authenticate, login: = {}", data.login)
+        val user = if (!data.login.isNullOrEmpty()) {
+            val foundUser = userService.getUserByLogin(data.login)?.toUserDto()
+                ?: throw MyCustomException("Nie odnaleziono użytkownika ${data.login}")
+            if (!authService.isValidLoginAndPassword(data.login, data.password)) {
+                throw MyCustomException("Nieprawidłowy login lub hasło")
+            }
+            foundUser
+        } else if (!data.email.isNullOrEmpty()) {
+            val foundUser = userService.getUserByEmail(data.email)?.toUserDto()
+                ?: throw MyCustomException("Nie odnaleziono użytkownika ${data.email}")
+            if (!authService.isValidEmailAndPassword(data.email, data.password)) {
+                throw MyCustomException("Nieprawidłowy login lub hasło")
+            }
+            foundUser
+        } else {
+            throw MyCustomException("Brak loginu lub email do autoryzacji")
         }
         log.info("END method: authenticate, data: = {}", user)
         return ResponseEntity.ok(user)
     }
 
     @PostMapping("/exist")
-    fun checkIfUserExist(@RequestBody data: UserRequest): ResponseEntity<Response> {
+    fun checkIfUserExist(@RequestBody data: UserRegisterReq): ResponseEntity<Response> {
         log.info("START method: checkIfUserExist, data: = {}", data)
-        val response = if( userService.checkIfExist(data.email) )
+        val response = if( userService.checkIfExist(data.login) )
              Response(message = "Użytkownik istnieje")
             else Response(message = "Uźytkonik nie istnieje", status = ResponseStatus.ERROR);
         log.info("END method: checkIfUserExist, response: = {}", response)
@@ -48,7 +61,7 @@ class UserController(
     }
 
     @PostMapping("/create")
-    fun createUser(@RequestBody data: UserRequest): ResponseEntity<Response> {
+    fun createUser(@RequestBody data: UserRegisterReq): ResponseEntity<Response> {
         log.info("Method: createUser, data: = {}", data)
         userService.createUser(data)
         return ResponseEntity.ok(Response(message = "Utowrzono użytkownika"))
