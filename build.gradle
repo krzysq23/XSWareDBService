@@ -49,6 +49,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+	// Jakarta
+	implementation 'org.glassfish:jakarta.el:4.0.2'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+
+	// Hibernate
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+
 	// log4j
 	implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
 

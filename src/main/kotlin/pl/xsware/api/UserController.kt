@@ -1,5 +1,6 @@
 package pl.xsware.api
 
+import jakarta.validation.Valid
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.http.ResponseEntity
@@ -61,7 +62,7 @@ class UserController(
     }
 
     @PostMapping("/create")
-    fun createUser(@RequestBody data: UserRegisterReq): ResponseEntity<Response> {
+    fun createUser(@Valid @RequestBody data: UserRegisterReq): ResponseEntity<Response> {
         log.info("Method: createUser, data: = {}", data)
         userService.createUser(data)
         return ResponseEntity.ok(Response(message = "Utowrzono użytkownika"))

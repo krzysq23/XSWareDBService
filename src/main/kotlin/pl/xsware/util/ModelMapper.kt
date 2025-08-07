@@ -8,8 +8,7 @@ class ModelMapper
 fun User.toUserDto(): UserDto {
     return UserDto(
         id = this.id,
-        firstName = this.firstName,
-        lastName = this.lastName,
+        userName = this.userName,
         login = this.login,
         email = this.email,
         roles = this.roles

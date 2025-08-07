@@ -1,6 +1,7 @@
 package pl.xsware.domain.model.entity.user
 
 import jakarta.persistence.*
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "users")
@@ -10,18 +11,19 @@ data class User (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @Column(name = "first_name")
-    val firstName: String,
+    @field:NotBlank
+    @Column(nullable = false, unique = true)
+    val userName: String,
 
-    @Column(name = "last_name")
-    val lastName: String,
-
+    @field:NotBlank
     @Column(nullable = false, unique = true)
     val login: String,
 
+    @field:NotBlank
     @Column(nullable = false, unique = true)
     val email: String,
 
+    @field:NotBlank
     @Column(nullable = false)
     val password: String,
 

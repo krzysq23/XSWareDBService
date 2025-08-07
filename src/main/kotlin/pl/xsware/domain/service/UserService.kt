@@ -19,8 +19,13 @@ class UserService(
 
     @Transactional
     fun createUser(userData: UserRegisterReq): User {
+
         if (userRepository.existsByEmail(userData.email)) {
             throw MyCustomException("Użytkownik o email ${userData.email} już istnieje")
+        }
+
+        if (userRepository.existsByLogin(userData.login)) {
+            throw MyCustomException("Użytkownik o loginie ${userData.login} już istnieje")
         }
 
         val userRole = roleRepository.findByName(RoleName.USER)
@@ -29,8 +34,7 @@ class UserService(
         val encodedPassword = passwordEncoder.encode(userData.password)
 
         val newUser = User(
-            firstName = userData.firstName,
-            lastName = userData.lastName,
+            userName = userData.userName,
             login = userData.login,
             email = userData.email,
             password = encodedPassword,
