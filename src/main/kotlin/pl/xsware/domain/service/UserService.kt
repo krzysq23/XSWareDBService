@@ -4,11 +4,14 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import pl.xsware.api.util.MyCustomException
-import pl.xsware.domain.model.dto.user.UserRegisterReq
+import pl.xsware.domain.model.dto.user.UserDto
+import pl.xsware.domain.model.dto.user.UserReq
 import pl.xsware.domain.model.entity.user.RoleName
 import pl.xsware.domain.model.entity.user.User
 import pl.xsware.domain.respository.RoleRepository
 import pl.xsware.domain.respository.UserRepository
+import pl.xsware.util.toUserDto
+import java.util.*
 
 @Service
 class UserService(
@@ -17,8 +20,31 @@ class UserService(
     private val passwordEncoder: PasswordEncoder
 ) {
 
+    fun getUserById(id: Long): UserDto {
+        return userRepository.findById(id)
+            .orElseThrow { MyCustomException("Użytkownik o ID $id nie istnieje") }
+            .toUserDto();
+    }
+
+    fun getAllUsers(): List<UserDto>? {
+        return userRepository.findAll()
+            .map { it.toUserDto() }
+    }
+
+    fun checkIfExist(login: String): Boolean {
+        return userRepository.existsByLogin(login);
+    }
+
+    fun getUserByEmail(email: String): User? {
+        return userRepository.findAll().find { it.email == email }
+    }
+
+    fun getUserByLogin(login: String): User? {
+        return userRepository.findByLogin(login)
+    }
+
     @Transactional
-    fun createUser(userData: UserRegisterReq): User {
+    fun createUser(userData: UserReq): User {
 
         if (userRepository.existsByEmail(userData.email)) {
             throw MyCustomException("Użytkownik o email ${userData.email} już istnieje")
@@ -44,19 +70,11 @@ class UserService(
         return userRepository.save(newUser)
     }
 
-    fun authenticateUser(email: String, passwordEncoder: String): Boolean {
-        return userRepository.existsByEmail(email);
+    fun editUser(data: UserReq) {
+
     }
 
-    fun checkIfExist(email: String): Boolean {
-        return userRepository.existsByEmail(email);
-    }
+    fun removeUserById(id: Long) {
 
-    fun getUserByEmail(email: String): User? {
-        return userRepository.findAll().find { it.email == email }
-    }
-
-    fun getUserByLogin(login: String): User? {
-        return userRepository.findByLogin(login)
     }
 }

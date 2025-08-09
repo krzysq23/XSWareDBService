@@ -2,8 +2,9 @@ package pl.xsware.domain.model.dto.user
 
 import jakarta.validation.constraints.NotBlank
 
-data class UserRegisterReq(
+data class UserReq(
 
+    val id: Long,
     @field:NotBlank(message = "Pole userName nie może być puste")
     val userName: String = "",
     @field:NotBlank(message = "Pole login nie może być puste")
