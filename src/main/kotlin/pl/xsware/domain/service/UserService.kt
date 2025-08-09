@@ -87,6 +87,9 @@ class UserService(
     }
 
     fun removeUserById(id: Long) {
-
+        if (!userRepository.existsById(id)) {
+            throw MyCustomException("Użytkownik o ID $id nie istnieje")
+        }
+        userRepository.deleteById(id)
     }
 }
