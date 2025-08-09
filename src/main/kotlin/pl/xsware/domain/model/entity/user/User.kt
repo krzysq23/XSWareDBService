@@ -13,7 +13,7 @@ data class User (
 
     @field:NotBlank
     @Column(nullable = false, unique = true)
-    val userName: String,
+    var userName: String,
 
     @field:NotBlank
     @Column(nullable = false, unique = true)
@@ -21,11 +21,11 @@ data class User (
 
     @field:NotBlank
     @Column(nullable = false, unique = true)
-    val email: String,
+    var email: String,
 
     @field:NotBlank
     @Column(nullable = false)
-    val password: String,
+    var password: String,
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -33,6 +33,6 @@ data class User (
         joinColumns = [JoinColumn(name = "user_id")],
         inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
-    val roles: Set<Role> = emptySet()
+    var roles: MutableSet<Role> = mutableSetOf()
 
 )

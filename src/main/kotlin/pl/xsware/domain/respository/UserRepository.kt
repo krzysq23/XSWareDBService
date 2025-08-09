@@ -8,6 +8,7 @@ import pl.xsware.domain.model.entity.user.User
 interface UserRepository : JpaRepository<User, Long> {
     fun findByLogin(login: String): User?
     fun findByEmail(email: String): User?
+    fun existsByEmailAndIdNot(email: String, id: Long): Boolean
     fun existsByEmail(email: String): Boolean
     fun existsByLogin(login: String): Boolean
 }

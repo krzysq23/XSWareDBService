@@ -1,6 +1,6 @@
 package pl.xsware.domain.model.dto.user
 
-import pl.xsware.domain.model.entity.user.Role
+import pl.xsware.domain.model.entity.user.RoleName
 
 data class UserDto(
 
@@ -8,5 +8,5 @@ data class UserDto(
     val userName: String = "",
     val login: String = "",
     val email: String = "",
-    val roles: Set<Role> = emptySet()
+    val roles: Set<RoleName> = emptySet()
 )

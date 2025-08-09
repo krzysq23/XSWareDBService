@@ -48,7 +48,7 @@ class UserController(
     @PostMapping("/user/edit")
     fun editUser(@Valid @RequestBody data: UserReq): ResponseEntity<Response> {
         userService.editUser(data)
-        return ResponseEntity.ok(Response(message = "Utowrzono użytkownika"))
+        return ResponseEntity.ok(Response(message = "Zaktualizowano użytkownika"))
     }
 
     @GetMapping("/user/remove/{id}")
