@@ -1,7 +1,6 @@
 package pl.xsware.domain.model.dto.user
 
 import jakarta.validation.constraints.NotBlank
-import pl.xsware.domain.model.entity.user.Role
 import pl.xsware.domain.model.entity.user.RoleName
 
 data class UserReq(
@@ -15,5 +14,5 @@ data class UserReq(
     val email: String = "",
     @field:NotBlank(message = "Pole password nie może być puste")
     val password: String = "",
-    val role: Set<RoleName>
+    val roles: Set<RoleName>
 )

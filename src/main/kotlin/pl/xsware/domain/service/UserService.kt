@@ -74,15 +74,17 @@ class UserService(
             throw MyCustomException("Email ${userData.email} już istnieje w bazie")
         }
 
-        val userRole = roleRepository.findByNameIn(userData.role).toSet()
-        val encodedPassword = passwordEncoder.encode(userData.password)
+        val userRole = roleRepository.findByNameIn(userData.roles).toSet()
 
         editedUser.userName = userData.userName
         editedUser.email = userData.email
-        editedUser.password = encodedPassword
-        editedUser.roles
+        editedUser.roles.clear()
         editedUser.roles.addAll(userRole)
 
+        if (userData.password != "****") {
+            val encodedPassword = passwordEncoder.encode(userData.password)
+            editedUser.password = encodedPassword
+        }
         userRepository.save(editedUser)
     }
 
