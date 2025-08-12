@@ -1,13 +1,13 @@
 package pl.xsware.api
 
+import jakarta.validation.Valid
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import pl.xsware.api.util.MyCustomException
+import pl.xsware.domain.model.dto.Response
+import pl.xsware.domain.model.dto.user.PasswordReq
 import pl.xsware.domain.model.dto.user.UserDto
 import pl.xsware.domain.model.dto.user.UserLoginReq
 import pl.xsware.domain.service.AuthService
@@ -41,6 +41,18 @@ class AuthController(
             throw MyCustomException("Brak loginu lub email do autoryzacji")
         }
         return ResponseEntity.ok(user)
+    }
+
+    @PostMapping("/validPassword")
+    fun validPassword(@Valid  @RequestBody data: PasswordReq): ResponseEntity<Boolean> {
+        val isValid = authService.validPassword(data);
+        return ResponseEntity.ok(isValid)
+    }
+
+    @PostMapping("/changePassword")
+    fun changePassword(@Valid @RequestBody data: PasswordReq): ResponseEntity<Response> {
+        authService.changePassword(data);
+        return ResponseEntity.ok(Response(message = "Zmieniono hasło"))
     }
 
 }
