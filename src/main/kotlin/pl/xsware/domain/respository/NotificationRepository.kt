@@ -6,4 +6,7 @@ import pl.xsware.domain.model.entity.notification.Notification
 
 @Repository
 interface NotificationRepository : JpaRepository<Notification, Long> {
+    fun findByUserId(userId: Long): List<Notification>
+    fun findByUserIdAndIsReadFalse(userId: Long): List<Notification>
+    fun deleteByIdAndUserId(id: Long, userId: Long): Long
 }

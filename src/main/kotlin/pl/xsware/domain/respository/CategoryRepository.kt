@@ -6,4 +6,6 @@ import pl.xsware.domain.model.entity.category.Category
 
 @Repository
 interface CategoryRepository : JpaRepository<Category, Long> {
+    fun findByUserId(userId: Long): List<Category>
+    fun deleteByIdAndUserId(id: Long, userId: Long): Long
 }

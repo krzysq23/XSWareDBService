@@ -26,14 +26,14 @@ data class Category(
     val user: User,
 
     @Column(name = "name", nullable = false, length = 100)
-    val name: String,
+    var name: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 16)
-    val type: CategoryType,
+    var type: CategoryType,
 
     @Column(name = "color", length = 10)
-    val color: String? = null,
+    var color: String? = null,
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

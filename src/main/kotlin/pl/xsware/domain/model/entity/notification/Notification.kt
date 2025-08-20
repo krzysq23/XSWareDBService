@@ -24,14 +24,14 @@ data class Notification(
     val user: User,
 
     @Column(name = "message", nullable = false, columnDefinition = "TEXT")
-    val message: String,
+    var message: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 20)
-    val type: NotificationType,
+    var type: NotificationType,
 
     @Column(name = "is_read", nullable = false)
-    val isRead: Boolean = false,
+    var isRead: Boolean = false,
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

@@ -29,16 +29,16 @@ data class Transaction(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", foreignKey = ForeignKey(name = "fk_transactions_categories"))
-    val category: Category? = null,
+    var category: Category? = null,
 
     @Column(name = "amount", nullable = false, precision = 10, scale = 2)
-    val amount: BigDecimal,
+    var amount: BigDecimal,
 
     @Column(name = "date", nullable = false)
-    val date: Instant,
+    var date: Instant,
 
     @Column(name = "description", columnDefinition = "TEXT")
-    val description: String? = null,
+    var description: String? = null,
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

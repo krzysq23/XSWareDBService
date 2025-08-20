@@ -29,20 +29,20 @@ data class BudgetLimit(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", foreignKey = ForeignKey(name = "fk_budget_limits_categories"))
-    val category: Category? = null,
+    var category: Category? = null,
 
     @Column(name = "amount_limit", nullable = false, precision = 10, scale = 2)
-    val amountLimit: BigDecimal,
+    var amountLimit: BigDecimal,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "period_type", nullable = false, length = 16)
-    val periodType: PeriodType,
+    var periodType: PeriodType,
 
     @Column(name = "start_date", nullable = false)
-    val startDate: LocalDate,
+    var startDate: LocalDate,
 
     @Column(name = "end_date")
-    val endDate: LocalDate? = null,
+    var endDate: LocalDate? = null,
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
