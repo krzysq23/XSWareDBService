@@ -12,7 +12,6 @@ import pl.xsware.domain.respository.RoleRepository
 import pl.xsware.domain.respository.UserRepository
 import pl.xsware.util.toUser
 import pl.xsware.util.toUserDto
-import java.util.*
 
 @Service
 class UserService(
