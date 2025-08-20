@@ -1,5 +1,6 @@
 package pl.xsware.util.mapper
 
+import jakarta.persistence.EntityManager
 import pl.xsware.domain.model.dto.transaction.TransactionDto
 import pl.xsware.domain.model.entity.category.Category
 import pl.xsware.domain.model.entity.transaction.Transaction
@@ -16,10 +17,10 @@ fun Transaction.toDto() = TransactionDto(
     updatedAt = this.updatedAt
 )
 
-fun TransactionDto.toEntity(user: User, category: Category) = Transaction(
+fun TransactionDto.toEntity(entityManager: EntityManager) = Transaction(
     id = this.id!!,
-    user = user,
-    category = category,
+    user = entityManager.getReference(User::class.java, this.userId),
+    category = entityManager.getReference(Category::class.java, this.categoryId),
     amount = this.amount,
     date = this.date,
     description = this.description,

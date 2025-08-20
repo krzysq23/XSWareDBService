@@ -1,5 +1,6 @@
 package pl.xsware.util.mapper
 
+import jakarta.persistence.EntityManager
 import pl.xsware.domain.model.dto.budget.BudgetLimitDto
 import pl.xsware.domain.model.entity.budget.BudgetLimit
 import pl.xsware.domain.model.entity.category.Category
@@ -17,10 +18,10 @@ fun BudgetLimit.toDto() = BudgetLimitDto(
     updatedAt = this.updatedAt
 )
 
-fun BudgetLimitDto.toEntity(user: User, category: Category) = BudgetLimit(
+fun BudgetLimitDto.toEntity(entityManager: EntityManager) = BudgetLimit(
     id = this.id!!,
-    user = user,
-    category = category,
+    user = entityManager.getReference(User::class.java, this.userId),
+    category = entityManager.getReference(Category::class.java, this.categoryId),
     amountLimit = this.amountLimit,
     periodType = this.periodType,
     startDate = this.startDate,
