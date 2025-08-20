@@ -17,7 +17,7 @@ import java.time.Instant
         Index(name = "idx_transactions_date", columnList = "date")
     ]
 )
-data class Transactions(
+data class Transaction(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

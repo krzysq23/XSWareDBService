@@ -10,8 +10,8 @@ import pl.xsware.domain.model.entity.user.RoleName
 import pl.xsware.domain.model.entity.user.User
 import pl.xsware.domain.respository.RoleRepository
 import pl.xsware.domain.respository.UserRepository
-import pl.xsware.util.toUser
-import pl.xsware.util.toUserDto
+import pl.xsware.util.mapper.toUser
+import pl.xsware.util.mapper.toUserDto
 
 @Service
 class UserService(

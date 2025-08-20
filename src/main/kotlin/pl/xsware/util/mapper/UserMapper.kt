@@ -1,4 +1,4 @@
-package pl.xsware.util
+package pl.xsware.util.mapper
 
 import pl.xsware.domain.model.dto.user.UserDto
 import pl.xsware.domain.model.dto.user.UserReq

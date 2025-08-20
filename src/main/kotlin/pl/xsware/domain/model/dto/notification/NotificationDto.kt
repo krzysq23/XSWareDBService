@@ -1,7 +1,7 @@
 package pl.xsware.domain.model.dto.notification
 
 import pl.xsware.domain.model.entity.notification.NotificationType
-import java.time.LocalDateTime
+import java.time.Instant
 
 data class NotificationDto(
 
@@ -10,6 +10,5 @@ data class NotificationDto(
     val message: String,
     val type: NotificationType,
     val isRead: Boolean,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?
+    val createdAt: Instant?
 )

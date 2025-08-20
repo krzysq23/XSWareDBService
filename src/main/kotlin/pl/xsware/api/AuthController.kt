@@ -13,7 +13,7 @@ import pl.xsware.domain.model.dto.user.UserDto
 import pl.xsware.domain.model.dto.user.UserLoginReq
 import pl.xsware.domain.service.AuthService
 import pl.xsware.domain.service.UserService
-import pl.xsware.util.toUserDto
+import pl.xsware.util.mapper.toUserDto
 
 @RestController
 @RequestMapping("/api/v1")
