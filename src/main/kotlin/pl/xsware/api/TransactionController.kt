@@ -2,6 +2,8 @@ package pl.xsware.api
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pl.xsware.domain.model.dto.Response
+import pl.xsware.domain.model.dto.transaction.TransactionDto
 import pl.xsware.domain.service.TransactionService
 
 @RestController
@@ -11,22 +13,27 @@ class TransactionController(
 ) {
 
     @GetMapping("/all/{userId}")
-    fun getAllUserTransactions(@PathVariable userId: String): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun getAllUserTransactions(@PathVariable userId: Long): ResponseEntity<List<TransactionDto>> {
+        val list = transactionService.getAllTransactions(userId)
+        return  ResponseEntity.ok(list)
     }
 
     @PostMapping("/add")
-    fun addTransaction(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun addTransaction(@RequestBody data: TransactionDto): ResponseEntity<Response> {
+        transactionService.addTransaction(data)
+        return ResponseEntity.ok(Response(message = "Dodano transakcję"))
     }
 
-    @PostMapping("/remove")
-    fun removeTransaction(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    @GetMapping("/remove")
+    fun removeTransaction(@RequestParam transactionId: Long,
+                          @RequestParam userId: Long): ResponseEntity<Response> {
+        transactionService.removeTransaction(transactionId, userId)
+        return ResponseEntity.ok(Response(message = "Usunięto transakcję"))
     }
 
     @PostMapping("/edit")
-    fun editTransaction(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun editTransaction(@RequestBody data: TransactionDto): ResponseEntity<Response> {
+        transactionService.editTransaction(data)
+        return ResponseEntity.ok(Response(message = "Zmieniono transakcję"))
     }
 }

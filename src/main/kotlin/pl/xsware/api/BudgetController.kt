@@ -2,6 +2,8 @@ package pl.xsware.api
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pl.xsware.domain.model.dto.Response
+import pl.xsware.domain.model.dto.budget.BudgetLimitDto
 import pl.xsware.domain.service.BudgetService
 
 @RestController
@@ -11,22 +13,27 @@ class BudgetController(
 ) {
 
     @GetMapping("/all/{userId}")
-    fun getAllUserBudget(@PathVariable userId: String): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun getAllUserBudget(@PathVariable userId: Long): ResponseEntity<List<BudgetLimitDto>> {
+        val listBL = budgetService.getAllBudgetsForUser(userId);
+        return  ResponseEntity.ok(listBL)
     }
 
     @PostMapping("/add")
-    fun addBudget(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun addBudget(@RequestBody data: BudgetLimitDto): ResponseEntity<Response> {
+        budgetService.addBudget(data);
+        return  ResponseEntity.ok(Response(message = "Dodano budżet"))
     }
 
-    @PostMapping("/remove")
-    fun removeBudget(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    @GetMapping("/remove")
+    fun removeBudget(@RequestParam budgetId: Long,
+                     @RequestParam userId: Long): ResponseEntity<Response> {
+        budgetService.removeBudget(budgetId, userId);
+        return  ResponseEntity.ok(Response(message = "Usunięto budżet"))
     }
 
     @PostMapping("/edit")
-    fun editBudget(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun editBudget(@RequestBody data: BudgetLimitDto): ResponseEntity<Response> {
+        budgetService.editBudget(data);
+        return  ResponseEntity.ok(Response(message = "Zmodyfikowano budżet"))
     }
 }

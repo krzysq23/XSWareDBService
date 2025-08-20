@@ -2,6 +2,8 @@ package pl.xsware.api
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pl.xsware.domain.model.dto.Response
+import pl.xsware.domain.model.dto.notification.NotificationDto
 import pl.xsware.domain.service.NotificationService
 
 @RestController
@@ -11,22 +13,27 @@ class NotificationController(
 ) {
 
     @GetMapping("/all/{userId}")
-    fun getAllNotification(@PathVariable userId: String): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun getAllNotification(@PathVariable userId: Long): ResponseEntity<List<NotificationDto>> {
+        val list = notificationService.getAllNotification(userId);
+        return  ResponseEntity.ok(list)
     }
 
     @PostMapping("/add")
-    fun addNotification(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun addNotification(@RequestBody data: NotificationDto): ResponseEntity<Response> {
+        notificationService.addNotification(data)
+        return ResponseEntity.ok(Response(message = "Dodano powiadomienie"))
     }
 
-    @PostMapping("/remove")
-    fun removeNotification(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    @GetMapping("/remove")
+    fun removeNotification(@RequestParam notificationId: Long,
+                           @RequestParam userId: Long): ResponseEntity<Response> {
+        notificationService.removeNotification(notificationId, userId)
+        return ResponseEntity.ok(Response(message = "Usunięto powiadomienie"))
     }
 
     @PostMapping("/edit")
-    fun editNotification(): ResponseEntity<String> {
-        return  ResponseEntity.ok("OK")
+    fun editNotification(@RequestBody data: NotificationDto): ResponseEntity<Response> {
+        notificationService.editNotification(data)
+        return ResponseEntity.ok(Response(message = "Zmieniono powiadomienie"))
     }
 }
