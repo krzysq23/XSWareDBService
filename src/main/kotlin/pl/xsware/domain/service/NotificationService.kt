@@ -40,4 +40,8 @@ class NotificationService(
 
         notificationRepository.save(existing)
     }
+
+    fun changeAsRead(data: List<NotificationDto>) {
+        // TODO:
+    }
 }

@@ -11,6 +11,7 @@ fun Category.toDto() = CategoryDto(
     name = this.name,
     type = this.type,
     color = this.color,
+    icon = this.icon,
     createdAt = this.createdAt!!
 )
 

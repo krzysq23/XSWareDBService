@@ -35,6 +35,9 @@ data class Category(
     @Column(name = "color", length = 10)
     var color: String? = null,
 
+    @Column(name = "icon", length = 10)
+    var icon: String? = null,
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     val createdAt: Instant? = null
