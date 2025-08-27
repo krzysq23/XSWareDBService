@@ -1,6 +1,7 @@
 package pl.xsware.domain.service
 
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.notification.NotificationDto
@@ -23,6 +24,7 @@ class NotificationService(
         notificationRepository.save(notificationDto.toEntity(entityManager))
     }
 
+    @Transactional
     fun removeNotification(notificationId: Long, userId: Long) {
         val deletedCount = notificationRepository.deleteByIdAndUserId(notificationId, userId)
         if (deletedCount == 0L) {

@@ -22,5 +22,6 @@ fun CategoryDto.toEntity(entityManager: EntityManager) = Category(
     name = this.name,
     type = this.type,
     color = this.color,
+    icon = this.icon,
     createdAt = this.createdAt
 )

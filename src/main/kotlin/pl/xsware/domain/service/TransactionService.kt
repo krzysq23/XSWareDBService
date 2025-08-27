@@ -1,6 +1,7 @@
 package pl.xsware.domain.service
 
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.transaction.TransactionDto
@@ -24,6 +25,7 @@ class TransactionService(
         transactionRepository.save(transactionDto.toEntity(entityManager))
     }
 
+    @Transactional
     fun removeTransaction(transactionId: Long, userId: Long) {
         val deletedCount = transactionRepository.deleteByIdAndUserId(transactionId, userId)
         if (deletedCount == 0L) {

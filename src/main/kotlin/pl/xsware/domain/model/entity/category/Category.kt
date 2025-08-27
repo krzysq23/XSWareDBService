@@ -35,7 +35,7 @@ data class Category(
     @Column(name = "color", length = 10)
     var color: String? = null,
 
-    @Column(name = "icon", length = 10)
+    @Column(name = "icon", length = 30)
     var icon: String? = null,
 
     @CreationTimestamp

@@ -1,6 +1,7 @@
 package pl.xsware.domain.service
 
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.category.CategoryDto
@@ -28,6 +29,7 @@ class CategoryService(
         categoryRepository.save(categoryDto.toEntity(entityManager))
     }
 
+    @Transactional
     fun removeCategory(categoryId: Long, userId: Long) {
         val deletedCount = categoryRepository.deleteByIdAndUserId(categoryId, userId)
         if (deletedCount == 0L) {

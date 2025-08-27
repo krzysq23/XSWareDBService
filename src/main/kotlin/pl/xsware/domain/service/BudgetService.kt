@@ -1,6 +1,7 @@
 package pl.xsware.domain.service
 
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.budget.BudgetLimitDto
@@ -24,6 +25,7 @@ class BudgetService(
         budgetRepository.save(budgetLimitDto.toEntity(entityManager))
     }
 
+    @Transactional
     fun removeBudget(budgetId: Long, userId: Long) {
         val deletedCount = budgetRepository.deleteByIdAndUserId(budgetId, userId)
         if (deletedCount == 0L) {

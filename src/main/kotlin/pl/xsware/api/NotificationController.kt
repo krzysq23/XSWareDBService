@@ -36,4 +36,10 @@ class NotificationController(
         notificationService.editNotification(data)
         return ResponseEntity.ok(Response(message = "Zmieniono powiadomienie"))
     }
+
+    @PostMapping("/changeAsRead")
+    fun changeAsRead(@RequestBody data: List<NotificationDto>): ResponseEntity<Response> {
+        notificationService.changeAsRead(data)
+        return ResponseEntity.ok(Response(message = "Zmieniono powiadomienie"))
+    }
 }
