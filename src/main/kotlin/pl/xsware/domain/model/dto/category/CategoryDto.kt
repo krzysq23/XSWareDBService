@@ -11,5 +11,5 @@ data class CategoryDto(
     val type: CategoryType,
     val color: String?,
     val icon: String?,
-    val createdAt: Instant
+    val createdAt: Instant?
 )
