@@ -5,10 +5,13 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.transaction.TransactionDto
+import pl.xsware.domain.model.dto.transaction.TransactionReq
 import pl.xsware.domain.model.entity.category.Category
 import pl.xsware.domain.respository.TransactionRepository
 import pl.xsware.util.mapper.toDto
 import pl.xsware.util.mapper.toEntity
+import java.time.LocalDate
+import java.util.*
 
 @Service
 class TransactionService(
@@ -16,9 +19,20 @@ class TransactionService(
     private val entityManager: EntityManager
 ) {
 
-    fun getAllTransactions(userId: Long): List<TransactionDto>? {
-        return transactionRepository.findByUserId(userId)
-            .map { it.toDto() }
+    fun getTransactionsByDate(data: TransactionReq): List<TransactionDto>? {
+        return when (data.date.lowercase()) {
+            "month" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now().minusMonths(1), LocalDate.now())
+                .map { it.toDto() }
+
+            "lastWeek" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now().minusWeeks(1), LocalDate.now())
+                .map { it.toDto() }
+
+            "today" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now(), LocalDate.now())
+                .map { it.toDto() }
+
+            else -> transactionRepository.findByUserId(data.userId)
+                .map { it.toDto() }
+        }
     }
 
     fun addTransaction(transactionDto: TransactionDto) {

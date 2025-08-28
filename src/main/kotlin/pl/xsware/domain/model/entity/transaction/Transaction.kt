@@ -7,6 +7,7 @@ import pl.xsware.domain.model.entity.category.Category
 import pl.xsware.domain.model.entity.user.User
 import java.math.BigDecimal
 import java.time.Instant
+import java.time.LocalDate
 
 @Entity
 @Table(
@@ -35,7 +36,7 @@ data class Transaction(
     var amount: BigDecimal,
 
     @Column(name = "date", nullable = false)
-    var date: Instant,
+    var date: LocalDate,
 
     @Column(name = "description", columnDefinition = "TEXT")
     var description: String? = null,

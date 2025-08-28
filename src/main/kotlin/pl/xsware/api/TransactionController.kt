@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pl.xsware.domain.model.dto.Response
 import pl.xsware.domain.model.dto.transaction.TransactionDto
+import pl.xsware.domain.model.dto.transaction.TransactionReq
 import pl.xsware.domain.service.TransactionService
 
 @RestController
@@ -12,9 +13,9 @@ class TransactionController(
     private val transactionService: TransactionService
 ) {
 
-    @GetMapping("/all/{userId}")
-    fun getAllUserTransactions(@PathVariable userId: Long): ResponseEntity<List<TransactionDto>> {
-        val list = transactionService.getAllTransactions(userId)
+    @PostMapping("/getByDate")
+    fun getTransactionsByDate(@RequestBody data: TransactionReq): ResponseEntity<List<TransactionDto>> {
+        val list = transactionService.getTransactionsByDate(data)
         return  ResponseEntity.ok(list)
     }
 
