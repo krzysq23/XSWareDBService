@@ -44,6 +44,9 @@ data class BudgetLimit(
     @Column(name = "end_date")
     var endDate: LocalDate? = null,
 
+    @Column(name = "note")
+    var note: String?,
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     val createdAt: Instant? = null,

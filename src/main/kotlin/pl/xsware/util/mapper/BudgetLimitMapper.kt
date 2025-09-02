@@ -5,17 +5,19 @@ import pl.xsware.domain.model.dto.budget.BudgetLimitDto
 import pl.xsware.domain.model.entity.budget.BudgetLimit
 import pl.xsware.domain.model.entity.category.Category
 import pl.xsware.domain.model.entity.user.User
+import java.math.BigDecimal
 
 fun BudgetLimit.toDto() = BudgetLimitDto(
     id = this.id,
     userId = this.user.id,
     categoryId = this.category!!.id,
     amountLimit = this.amountLimit,
+    amountSpent = BigDecimal.ZERO,
+    amountRemaining = BigDecimal.ZERO,
     periodType = this.periodType,
     startDate = this.startDate,
     endDate = this.endDate,
-    createdAt = this.createdAt,
-    updatedAt = this.updatedAt
+    note = this.note
 )
 
 fun BudgetLimitDto.toEntity(entityManager: EntityManager) = BudgetLimit(
@@ -26,5 +28,5 @@ fun BudgetLimitDto.toEntity(entityManager: EntityManager) = BudgetLimit(
     periodType = this.periodType,
     startDate = this.startDate,
     endDate = this.endDate,
-    createdAt = this.createdAt
+    note = this.note,
 )
