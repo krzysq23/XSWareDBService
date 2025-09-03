@@ -1,6 +1,7 @@
 package pl.xsware.domain.service
 
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import pl.xsware.api.util.MyCustomException
 import pl.xsware.domain.model.dto.financialGoal.FinancialGoalDto
@@ -24,6 +25,7 @@ class FinancialGoalService(
         financialGoalRepository.save(data.toEntity(entityManager))
     }
 
+    @Transactional
     fun removeFinancialGoal(financialGoalId: Long, userId: Long) {
         val deletedCount = financialGoalRepository.deleteByIdAndUserId(financialGoalId, userId)
         if (deletedCount == 0L) {
