@@ -21,13 +21,19 @@ class TransactionService(
 
     fun getTransactionsByDate(data: TransactionReq): List<TransactionDto>? {
         return when (data.date.lowercase()) {
-            "month" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now().minusMonths(1), LocalDate.now())
-                .map { it.toDto() }
-
-            "lastWeek" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now().minusWeeks(1), LocalDate.now())
-                .map { it.toDto() }
-
             "today" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now(), LocalDate.now())
+                .map { it.toDto() }
+
+            "month" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusMonths(1),)
+                .map { it.toDto() }
+
+            "lastWeek" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusWeeks(1))
+                .map { it.toDto() }
+
+            "lastQuarter" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusMonths(3))
+                .map { it.toDto() }
+
+            "lastYear" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusYears(1))
                 .map { it.toDto() }
 
             else -> transactionRepository.findByUserId(data.userId)

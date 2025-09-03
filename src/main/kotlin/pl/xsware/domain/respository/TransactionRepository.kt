@@ -9,5 +9,6 @@ import java.time.LocalDate
 interface TransactionRepository : JpaRepository<Transaction, Long> {
     fun findByUserId(userId: Long): List<Transaction>
     fun findByUserIdAndDateBetween(userId: Long, start: LocalDate, end: LocalDate): List<Transaction>
+    fun findByUserIdAndDateGreaterThanEqual(userId: Long, start: LocalDate): List<Transaction>
     fun deleteByIdAndUserId(id: Long, userId: Long): Long
 }

@@ -13,6 +13,7 @@ fun Transaction.toDto() = TransactionDto(
     amount = this.amount,
     date = this.date,
     description = this.description,
+    type = this.category!!.type,
     createdAt = this.createdAt,
     updatedAt = this.updatedAt
 )
