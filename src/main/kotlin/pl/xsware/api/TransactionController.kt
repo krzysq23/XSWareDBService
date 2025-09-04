@@ -13,7 +13,7 @@ class TransactionController(
     private val transactionService: TransactionService
 ) {
 
-    @PostMapping("/getByDate")
+    @PostMapping("/get")
     fun getTransactionsByDate(@RequestBody data: TransactionReq): ResponseEntity<List<TransactionDto>> {
         val list = transactionService.getTransactionsByDate(data)
         return  ResponseEntity.ok(list)

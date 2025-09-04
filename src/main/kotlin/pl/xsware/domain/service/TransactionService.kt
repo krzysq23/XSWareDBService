@@ -11,7 +11,6 @@ import pl.xsware.domain.respository.TransactionRepository
 import pl.xsware.util.mapper.toDto
 import pl.xsware.util.mapper.toEntity
 import java.time.LocalDate
-import java.util.*
 
 @Service
 class TransactionService(
@@ -20,25 +19,31 @@ class TransactionService(
 ) {
 
     fun getTransactionsByDate(data: TransactionReq): List<TransactionDto>? {
-        return when (data.date.lowercase()) {
-            "today" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now(), LocalDate.now())
-                .map { it.toDto() }
+        if(!data.dateRange.isNullOrEmpty())
+            return when (data.dateRange.lowercase()) {
+                "today" -> transactionRepository.findByUserIdAndDateBetween(data.userId, LocalDate.now(), LocalDate.now())
+                    .map { it.toDto() }
 
-            "month" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusMonths(1),)
-                .map { it.toDto() }
+                "month" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusMonths(1),)
+                    .map { it.toDto() }
 
-            "lastWeek" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusWeeks(1))
-                .map { it.toDto() }
+                "lastWeek" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusWeeks(1))
+                    .map { it.toDto() }
 
-            "lastQuarter" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusMonths(3))
-                .map { it.toDto() }
+                "lastQuarter" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusMonths(3))
+                    .map { it.toDto() }
 
-            "lastYear" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusYears(1))
-                .map { it.toDto() }
+                "lastYear" -> transactionRepository.findByUserIdAndDateGreaterThanEqual(data.userId, LocalDate.now().minusYears(1))
+                    .map { it.toDto() }
 
-            else -> transactionRepository.findByUserId(data.userId)
+                else -> transactionRepository.findByUserId(data.userId)
+                    .map { it.toDto() }
+            }
+        else if(data.startDate != null && data.endDate != null)
+            return transactionRepository.findByUserIdAndDateBetween(data.userId, data.startDate, data.endDate)
                 .map { it.toDto() }
-        }
+        else
+            return null;
     }
 
     fun addTransaction(transactionDto: TransactionDto) {
