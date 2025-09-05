@@ -10,6 +10,7 @@ fun Transaction.toDto() = TransactionDto(
     id = this.id,
     userId = this.user.id,
     categoryId = this.category!!.id,
+    categoryName = this.category!!.name,
     amount = this.amount,
     date = this.date,
     description = this.description,

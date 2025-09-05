@@ -10,6 +10,7 @@ data class TransactionDto(
     val id: Long?,
     val userId: Long,
     val categoryId: Long,
+    val categoryName: String?,
     val amount: BigDecimal,
     val date: LocalDate,
     val description: String?,
