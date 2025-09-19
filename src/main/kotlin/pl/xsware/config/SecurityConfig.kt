@@ -36,11 +36,6 @@ class SecurityConfig(private val securityProperties: SecurityProperties) {
         http
             .csrf { it.disable() }
             .exceptionHandling {
-                it.authenticationEntryPoint { _, response, _ ->
-                    response.status = 401
-                    response.contentType = "application/json"
-                    response.writer.write("""{"error":"Unauthorized","message":"AUTH_REQUIRED"}""")
-                }
                 it.accessDeniedHandler { _, response, _ ->
                     response.status = 403
                     response.contentType = "application/json"
