@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.springframework.stereotype.Component
 import pl.xsware.api.AuthController
+import java.util.concurrent.TimeUnit
 
 @Aspect
 @Component
@@ -17,9 +18,15 @@ class LoggingAspect {
     @Around("within(@org.springframework.web.bind.annotation.RestController *)")
     fun logAround(joinPoint: ProceedingJoinPoint): Any? {
         val methodName = joinPoint.signature.name
-        log.info("START method: $methodName")
-        val result = joinPoint.proceed()
-        log.info("STOP method: $methodName, result: $result")
-        return result
+        val start = System.nanoTime()
+
+        log.info("▶ START: $methodName")
+        return try {
+            val result = joinPoint.proceed()
+            result
+        } finally {
+            val elapsed = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start)
+            log.info("⏹ STOP: $methodName (took ${elapsed} ms)")
+        }
     }
 }
