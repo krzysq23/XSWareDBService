@@ -16,7 +16,7 @@ interface BudgetRepository : JpaRepository<BudgetLimit, Long> {
             SELECT b.id AS budgetId, b.user_id AS userId, b.amount_limit AS amountLimit,
                    b.category_id AS categoryId, b.period_type AS periodType, b.start_date AS startDate, 
                    b.start_date AS startDate, b.start_date AS startDate, b.end_date AS endDate, b.note AS note,
-                   s.spent_amount AS amountSpent, s.remaining_amount AS amountRemaining
+                   COALESCE(s.spent_amount, 0) AS amountSpent, COALESCE(s.remaining_amount, 0) AS amountRemaining
             FROM budget_limits b
             LEFT JOIN budget_summary s ON b.id = s.budget_id
             WHERE b.user_id = :userId

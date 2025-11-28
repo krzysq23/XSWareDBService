@@ -22,7 +22,7 @@ class BudgetService(
         return budgetRepository.findBudgetWithSummary(data.userId).map {
             BudgetLimitDto(
                 id = (it["budgetId"] as Number).toLong(),
-                userId = (it["budgetId"] as Number).toLong(),
+                userId = (it["userId"] as Number).toLong(),
                 categoryId = (it["categoryId"] as Number).toLong(),
                 amountLimit = it["amountLimit"] as BigDecimal,
                 amountSpent = it["amountSpent"] as? BigDecimal ?: BigDecimal.ZERO,
