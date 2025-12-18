@@ -1,0 +1,53 @@
+server:
+  port: 8094
+
+# Logging
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.core: DEBUG
+    org.springframework.security.authentication: DEBUG
+
+# Database
+spring:
+  datasource:
+    url: ${DB_DATASOURCE_URL}
+    username: ${DB_DATASOURCE_USERNAME}
+    password: ${DB_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: xsware-hikari
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 10000
+      validation-timeout: 3000
+      idle-timeout: 600000
+      max-lifetime: 1500000
+      keepalive-time: 300000
+      leak-detection-threshold: 0
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+# Security
+security:
+  users:
+    - username: admin
+      password: admin1234
+      roles: [ADMIN]
+    - username: user
+      password: user1234
+      roles: [USER]
+    - username: swagger
+      password: swagger
+      roles: [ SWAGGER ]
+
+# Swagger
+springdoc:
+  swagger-ui:
+    path: /swagger
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs
+  default-produces-media-type: application/json
